@@ -9,5 +9,4 @@ public class HouseBotApp {
         var cleanupCoordinator = new HouseBot();
         cleanupCoordinator.start();
     }
-
 }
