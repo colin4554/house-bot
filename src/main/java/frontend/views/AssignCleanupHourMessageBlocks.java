@@ -20,7 +20,9 @@ public class AssignCleanupHourMessageBlocks {
                 section(section -> section.text(markdownText(mt -> mt.text(getAssignmentMessageText(assignment.getCleanupHour()))))),
                 actions(actions -> actions
                         .elements(asElements(
-                                button(b -> b.text(plainText(pt -> pt.text("Accept Hour"))).value("d").actionId("accept_hour_btn"))
+                                // TODO: add mark as done / submit pictures
+                                // TODO: add accept/skip
+//                                button(b -> b.text(plainText(pt -> pt.text("Accept Hour"))).value("d").actionId("accept_hour_btn"))
 //                                button(b -> b.text(plainText(pt -> pt.text("Skip Hour"))).value("d").actionId("skip_hour_btn"))
                         ))
                 ));

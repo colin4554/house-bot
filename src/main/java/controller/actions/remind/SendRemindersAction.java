@@ -42,14 +42,14 @@ public class SendRemindersAction extends ActionRunner.Action {
         var assignments = dataRepository.getAssignmentsForWeek(title);
 
         for (Assignment assignment : assignments) {
-//            System.out.println(assignment);
             sendAssignment(slackInterface, assignment);
+            
             if (!"null".equals(assignment.getName()) && !assignment.getCleanupHour().getDueTime().equals("")) {
                 var epochSecondReminderTimes = getReminderTimes(assignment.getCleanupHour());
                 for (Integer reminderTimeSeconds : epochSecondReminderTimes) {
                     System.out.println("schedule message");
                     System.out.println(reminderTimeSeconds);
-                    slackInterface.scheduleMessage("D03BY53RSFM", String.format("Reminder to complete your cleanup hour! It is due today at %s", assignment.getCleanupHour().getDueTime()), reminderTimeSeconds);
+                    slackInterface.scheduleMessage("D03BY53RSFM", String.format("*<@%s> remember to complete your %s cleanup hour!* It is due today at %s", assignment.getSlackId(), assignment.getCleanupHour().getName(),assignment.getCleanupHour().getDueTime()), reminderTimeSeconds);
                 }
             }
         }
