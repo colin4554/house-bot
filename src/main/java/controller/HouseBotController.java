@@ -3,6 +3,7 @@ package controller;
 import backend.DataRepository;
 import com.slack.api.app_backend.events.payload.EventsApiPayload;
 import com.slack.api.model.event.MessageEvent;
+import com.slack.api.model.view.ViewState;
 import controller.actions.*;
 import controller.actions.assign_hours.AssignCleanupHoursAction;
 import controller.actions.remind.SendRemindersAction;
@@ -37,8 +38,8 @@ public class HouseBotController {
         actionRunner.runAction(new AssignCleanupHoursAction(cleanupHourAssignmentProcessor, selectedHoursNames));
     }
 
-    public void handleSendRemindersEvent(String week) {
-        System.out.println(week);
+    public void handleSendRemindersEvent(ViewState.SelectedOption week) {
+//        System.out.println(week);
         actionRunner.runAction(new SendRemindersAction(cleanupHourAssignmentProcessor, week));
     }
     public void handleSendRemindersSelection(String triggerId) {

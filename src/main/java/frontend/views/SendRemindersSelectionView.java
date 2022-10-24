@@ -1,7 +1,11 @@
 package frontend.views;
 
+import com.slack.api.model.Option;
+import com.slack.api.model.block.composition.OptionObject;
 import com.slack.api.model.view.View;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -14,11 +18,11 @@ import static com.slack.api.model.view.Views.*;
 
 public class SendRemindersSelectionView {
 
-    public static View getView(List<String> weeks, int index) {
+    public static View getView(Map<String, String> weeks, int index) {
 
-        var options = weeks.stream().map(
-                option -> option(plainText(option), option)
-        ).collect(Collectors.toList());
+        var options = weeks.entrySet().stream().map(
+                week -> option(plainText(week.getKey()), week.getValue())
+        ).sorted(new SortByText()).collect(Collectors.toList());
 
         if (index < 0 || index > options.size()) index = 0;
         int finalIndex = index;
@@ -40,5 +44,14 @@ public class SendRemindersSelectionView {
                         )
                 ))
         );
+    }
+}
+
+class SortByText implements Comparator<OptionObject>
+{
+    // Sorts by sheet title
+    public int compare(OptionObject a, OptionObject b)
+    {
+        return a.getText().getText().compareTo(b.getText().getText());
     }
 }

@@ -38,7 +38,7 @@ public class AssignCleanupHoursAction extends ActionRunner.Action {
             return;
         }
 
-        var blocks = AssignCleanupHourMessageBlocks.getBlocks(assignment);
+        var blocks = AssignCleanupHourMessageBlocks.getBlocks(assignment, "this week");
         slackInterface.sendMessage("US4MRGT09", "You have been assigned a cleanup hour for this week", blocks);
     }
 }

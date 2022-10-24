@@ -12,6 +12,8 @@ public interface SheetsAPI {
 
     Result<ValueRange> getKeysSheet();
 
+    Result<ValueRange> getWeekSheet(String sheetTitle);
+
     Result<ValueRange> getCleanupHours();
 
     Result<List<Sheet>> getSheets();

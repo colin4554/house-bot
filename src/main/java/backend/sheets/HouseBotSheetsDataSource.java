@@ -11,7 +11,9 @@ import com.google.api.services.sheets.v4.model.ValueRange;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Streams;
+import org.checkerframework.checker.units.qual.A;
 import org.jetbrains.annotations.NotNull;
+import util.Constants;
 import util.Log;
 import util.Util;
 
@@ -165,18 +167,22 @@ public class HouseBotSheetsDataSource implements SheetsDataSource {
     }
 
     @NotNull
-    public List<String> getWeekSheets() {
+    public Map<String, String> getWeekSheets() {
         var sheets = sheetsAPI.getSheets();
 
-        return sheets.getValue().stream().map(this::getTitleFromSheet)
-                .filter(title -> title.startsWith("Week"))
-                .sorted()
-                .collect(Collectors.toList());
+        return sheets.getValue().stream()
+                .filter(sheet -> getTitleFromSheet(sheet).startsWith("Week"))
+                .collect(Collectors.toMap(this::getTitleFromSheet, this::getSheetId));
     }
 
     private String getTitleFromSheet(Sheet sheet) {
         SheetProperties properties = (SheetProperties) sheet.get("properties");
         return properties.getOrDefault("title", "").toString();
+    }
+
+    private String getSheetId(Sheet sheet) {
+        SheetProperties properties = (SheetProperties) sheet.get("properties");
+        return properties.getOrDefault("sheetId", "").toString();
     }
 
     @Override
@@ -201,5 +207,39 @@ public class HouseBotSheetsDataSource implements SheetsDataSource {
         } else {
             return row.get(position).toString();
         }
+    }
+
+    public List<Assignment> getAssignmentsForWeek(String sheetTitle) {
+        var response = sheetsAPI.getWeekSheet(sheetTitle);
+
+        if (response.isError()) {
+            return ImmutableList.of();
+        }
+
+        var cleanupHours = getCleanupHours();
+        var members = getMembersList();
+
+        var values = response.getValue().getValues();
+        return values.stream().map(row -> {
+            var status = getStringFromRowSafely(row, 0);
+            var assigneeName = getStringFromRowSafely(row, 1);
+            var hourName = getStringFromRowSafely(row, 2);
+
+            var dueDay = getStringFromRowSafely(row, 3);
+            var dueTime = getStringFromRowSafely(row, 4);
+
+            var worthStr = getStringFromRowSafely(row, 5);
+            var worth = Util.parseIntSafely(worthStr);
+
+            var cleanupHour = cleanupHours.stream().filter(hour -> hour.getName().equals(hourName)).findFirst();
+            var assignee = members.stream().filter(member -> member.getName().equals(assigneeName)).findFirst();
+
+            // TODO: notify house manager if we couldn't find cleanup hour
+            // TODO: notify house manager if we couldn't find member
+            return assignee.flatMap(member -> cleanupHour.map(hour -> new Assignment(member.getSlackId(), assigneeName, new CleanupHour(hourName, dueDay, dueTime, worth, hour.getLink(), hour.getDifficulty(), hour.getBathroomFloor())))).orElse(
+                    new Assignment(Constants.getHouseManagerIds().iterator().next(), assigneeName, new CleanupHour(hourName, dueDay, dueTime, worth, "link", CleanupHourDifficulty.MEDIUM, ""))
+            );
+
+        }).collect(ImmutableList.toImmutableList());
     }
 }

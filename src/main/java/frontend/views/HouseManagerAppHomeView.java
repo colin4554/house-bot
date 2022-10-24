@@ -14,7 +14,7 @@ public class HouseManagerAppHomeView {
         return view(view -> view
                 .type("home")
                 .blocks(asBlocks(
-                        section(section -> section.text(markdownText(mt -> mt.text(String.format("Welcome to the Slack Cleanup Coordinator House Mananger! <@%s>.", userId))))),
+                        section(section -> section.text(markdownText(mt -> mt.text(String.format("Welcome House Manager to the House Bot! <@%s>.", userId))))),
                         divider(),
                         actions(actions -> actions
                                 .elements(asElements(

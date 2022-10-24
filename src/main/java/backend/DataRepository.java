@@ -12,6 +12,7 @@ import util.Constants;
 import util.Log;
 
 import java.util.List;
+import java.util.Map;
 
 public class DataRepository implements DataRepositoryInterface {
 
@@ -102,13 +103,18 @@ public class DataRepository implements DataRepositoryInterface {
     }
 
     @Override
-    public List<String> getAvailableWeeks() {
+    public Map<String, String> getAvailableWeeks() {
         return googleSheetsDataSource.getWeekSheets();
     }
 
     @Override
     public ImmutableMap<String, Assignment> getCurrentAssignments() {
         return ImmutableMap.of();
+    }
+
+    @Override
+    public List<Assignment> getAssignmentsForWeek(String sheetTitle) {
+        return googleSheetsDataSource.getAssignmentsForWeek(sheetTitle);
     }
 
     private void logGoogleSheetsNullError() {

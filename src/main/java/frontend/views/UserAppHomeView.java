@@ -10,7 +10,7 @@ import static com.slack.api.model.view.Views.view;
 
 public class UserAppHomeView {
     public static View getView(Member member) {
-        var header = section(section -> section.text(markdownText(mt -> mt.text(String.format("Welcome to the Slack Cleanup Coordinator %s!.", member.getName())))));
+        var header = section(section -> section.text(markdownText(mt -> mt.text(String.format("Welcome to the House Bot %s!.", member.getName())))));
 
         SectionBlock completedSection;
 

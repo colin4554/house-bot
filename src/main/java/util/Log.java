@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Log {
-    private static final Logger logger = LoggerFactory.getLogger("cleanup-coordinator-slack");
+    private static final Logger logger = LoggerFactory.getLogger("house-bot-slack");
     private static SlackInterface slackInterface = null;
     private static List<String> logMessagesQueued = new ArrayList<>();
 

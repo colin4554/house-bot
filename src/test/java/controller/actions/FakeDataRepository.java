@@ -8,6 +8,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class FakeDataRepository implements DataRepositoryInterface {
@@ -57,7 +58,12 @@ public class FakeDataRepository implements DataRepositoryInterface {
     }
 
     @Override
-    public List<String> getAvailableWeeks() {
+    public Map<String, String> getAvailableWeeks() {
+        return null;
+    }
+
+    @Override
+    public List<Assignment> getAssignmentsForWeek(String sheetId) {
         return null;
     }
 }

@@ -13,22 +13,22 @@ import static com.slack.api.model.block.element.BlockElements.asElements;
 import static com.slack.api.model.block.element.BlockElements.button;
 
 public class AssignCleanupHourMessageBlocks {
-    public static List<LayoutBlock> getBlocks(Assignment assignment) {
+    public static List<LayoutBlock> getBlocks(Assignment assignment, String title) {
         return asBlocks(
-                section(section -> section.text(markdownText(mt -> mt.text(String.format("*Howdy <@%s>! You have been assigned a cleanup hour for this week:*", assignment.getSlackId()))))),
+                section(section -> section.text(markdownText(mt -> mt.text(String.format("*Hi <@%s>! You have been assigned a cleanup hour for " + title + ":*", assignment.getSlackId()))))),
                 divider(),
                 section(section -> section.text(markdownText(mt -> mt.text(getAssignmentMessageText(assignment.getCleanupHour()))))),
                 actions(actions -> actions
                         .elements(asElements(
-                                button(b -> b.text(plainText(pt -> pt.text("Accept Hour"))).value("d").actionId("accept_hour_btn")),
-                                button(b -> b.text(plainText(pt -> pt.text("Skip Hour"))).value("d").actionId("skip_hour_btn"))
+                                button(b -> b.text(plainText(pt -> pt.text("Accept Hour"))).value("d").actionId("accept_hour_btn"))
+//                                button(b -> b.text(plainText(pt -> pt.text("Skip Hour"))).value("d").actionId("skip_hour_btn"))
                         ))
                 ));
     }
 
     private static String getAssignmentMessageText(CleanupHour cleanupHour) {
-        return String.format("*Assignment*: %s\n", cleanupHour.getName()) +
-                String.format("Due Date: %s at %s\n", cleanupHour.getDueDay(), cleanupHour.getDueTime()) +
+        return String.format("Assignment: %s\n", cleanupHour.getName()) +
+                String.format("Due Date: *%s* at *%s*\n", cleanupHour.getDueDay(), cleanupHour.getDueTime()) +
                 String.format("Worth: %d Hour\n", cleanupHour.getWorth()) +
                 String.format("Link: %s\n", cleanupHour.getLink());
     }

@@ -66,7 +66,7 @@ public class HouseBot {
         });
 
         app.viewSubmission("send-reminder-week-selection", (req, ctx) -> {
-            var week = req.getPayload().getView().getState().getValues().get("block").get("action").getSelectedOption().getValue();
+            var week = req.getPayload().getView().getState().getValues().get("block").get("action").getSelectedOption();
 
             controller.handleSendRemindersEvent(week);
 

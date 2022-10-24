@@ -73,6 +73,11 @@ public class HouseBotSheetsApi implements SheetsAPI {
     }
 
     @Override
+    public Result<ValueRange> getWeekSheet(String sheetTitle) {
+        return getValueRangeFromDataFile(sheetTitle + "!A2:G");
+    }
+
+    @Override
     public Result<ValueRange> getCleanupHours() {
         return getValueRangeFromDataFile(Constants.getSheetsCleanupHourRange());
     }

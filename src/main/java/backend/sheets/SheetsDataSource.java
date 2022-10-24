@@ -5,6 +5,7 @@ import backend.models.CleanupHour;
 import backend.models.Member;
 import com.google.common.collect.ImmutableList;
 
+import java.util.List;
 import java.util.Map;
 
 public interface SheetsDataSource {
@@ -18,4 +19,6 @@ public interface SheetsDataSource {
     void createNewAssignment(ImmutableList<Assignment> assignedHours);
 
     void updateAssignments(ImmutableList<Assignment> assignments);
+
+    List<Assignment> getAssignmentsForWeek(String sheetTitle);
 }

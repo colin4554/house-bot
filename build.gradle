@@ -30,7 +30,7 @@ dependencies {
 }
 
 application {
-    mainClassName = "SlackCleanupCoordinatorApp"
+    mainClassName = "HouseBotApp"
 }
 
 java {

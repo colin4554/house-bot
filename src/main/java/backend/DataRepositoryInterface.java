@@ -7,6 +7,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public interface DataRepositoryInterface {
@@ -28,5 +29,6 @@ public interface DataRepositoryInterface {
 
     ImmutableMap<String, Assignment> getCurrentAssignments();
 
-    List<String> getAvailableWeeks();
+    Map<String, String> getAvailableWeeks();
+    List<Assignment> getAssignmentsForWeek(String sheetId);
 }
