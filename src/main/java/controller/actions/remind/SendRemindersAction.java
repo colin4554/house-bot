@@ -43,7 +43,7 @@ public class SendRemindersAction extends ActionRunner.Action {
 
         for (Assignment assignment : assignments) {
             sendAssignment(slackInterface, assignment);
-            
+
             if (!"null".equals(assignment.getName()) && !assignment.getCleanupHour().getDueTime().equals("")) {
                 var epochSecondReminderTimes = getReminderTimes(assignment.getCleanupHour());
                 for (Integer reminderTimeSeconds : epochSecondReminderTimes) {
@@ -59,6 +59,7 @@ public class SendRemindersAction extends ActionRunner.Action {
         if ("null".equals(assignment.getName())) {
             return;
         }
+        System.out.println("send assignment");
 
         var blocks = AssignCleanupHourMessageBlocks.getBlocks(assignment, title);
         slackInterface.sendMessage(assignment.getSlackId(), "You have been assigned a cleanup hour for " + title, blocks);

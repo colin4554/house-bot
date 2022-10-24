@@ -17,15 +17,15 @@ public class AssignCleanupHourMessageBlocks {
         return asBlocks(
                 section(section -> section.text(markdownText(mt -> mt.text(String.format("*Hi <@%s>! You have been assigned a cleanup hour for " + title + ":*", assignment.getSlackId()))))),
                 divider(),
-                section(section -> section.text(markdownText(mt -> mt.text(getAssignmentMessageText(assignment.getCleanupHour()))))),
-                actions(actions -> actions
-                        .elements(asElements(
-                                // TODO: add mark as done / submit pictures
-                                // TODO: add accept/skip
-//                                button(b -> b.text(plainText(pt -> pt.text("Accept Hour"))).value("d").actionId("accept_hour_btn"))
-//                                button(b -> b.text(plainText(pt -> pt.text("Skip Hour"))).value("d").actionId("skip_hour_btn"))
-                        ))
-                ));
+                section(section -> section.text(markdownText(mt -> mt.text(getAssignmentMessageText(assignment.getCleanupHour())))))
+//                actions(actions -> actions
+//                        .elements(asElements(
+//                                // TODO: add mark as done / submit pictures
+//                                // TODO: add accept/skip
+////                                button(b -> b.text(plainText(pt -> pt.text("Accept Hour"))).value("d").actionId("accept_hour_btn"))
+////                                button(b -> b.text(plainText(pt -> pt.text("Skip Hour"))).value("d").actionId("skip_hour_btn"))
+//                        )))
+                );
     }
 
     private static String getAssignmentMessageText(CleanupHour cleanupHour) {
